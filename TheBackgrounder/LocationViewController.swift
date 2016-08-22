@@ -45,7 +45,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
   
   // MARK: - CLLocationManagerDelegate
   
-  func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
+  func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
     // Add another annotation to the map.
     let annotation = MKPointAnnotation()
     annotation.coordinate = newLocation.coordinate

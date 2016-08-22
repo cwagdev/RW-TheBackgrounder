@@ -20,7 +20,7 @@ class WhateverViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reinstateBackgroundTask"), name: UIApplicationDidBecomeActiveNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reinstateBackgroundTask), name: UIApplicationDidBecomeActiveNotification, object: nil)
   }
   
   deinit {
@@ -38,7 +38,7 @@ class WhateverViewController: UIViewController {
     if sender.selected {
       resetCalculation()
       updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self,
-        selector: "calculateNextNumber", userInfo: nil, repeats: true)
+        selector: #selector(calculateNextNumber), userInfo: nil, repeats: true)
       registerBackgroundTask()
     } else {
       updateTimer?.invalidate()
@@ -76,7 +76,7 @@ class WhateverViewController: UIViewController {
     if result.compare(bigNumber) == .OrderedAscending {
       previous = current
       current = result
-      ++position
+      position += 1
     }
     else {
       // This is just too much.... Start over.

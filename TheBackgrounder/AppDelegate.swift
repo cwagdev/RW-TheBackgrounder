@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
     
     if let tabBarController = window?.rootViewController as? UITabBarController,
-           viewControllers = tabBarController.viewControllers as? [UIViewController]
+           viewControllers = tabBarController.viewControllers
     {
       for viewController in viewControllers {
         if let fetchViewController = viewController as? FetchViewController {
