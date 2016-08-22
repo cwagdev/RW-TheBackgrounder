@@ -12,19 +12,19 @@ class WhateverViewController: UIViewController {
   
   @IBOutlet weak var resultsLabel: UILabel!
   
-  var previous = NSDecimalNumber.one()
-  var current = NSDecimalNumber.one()
+  var previous = NSDecimalNumber.one
+  var current = NSDecimalNumber.one
   var position: UInt = 1
-  var updateTimer: NSTimer?
+  var updateTimer: Timer?
   var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reinstateBackgroundTask), name: UIApplicationDidBecomeActiveNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(reinstateBackgroundTask), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
   }
   
   deinit {
-    NSNotificationCenter.defaultCenter().removeObserver(self)
+    NotificationCenter.default.removeObserver(self)
   }
   
   func reinstateBackgroundTask() {
@@ -33,11 +33,11 @@ class WhateverViewController: UIViewController {
     }
   }
   
-  @IBAction func didTapPlayPause(sender: UIButton) {
-    sender.selected = !sender.selected
-    if sender.selected {
+  @IBAction func didTapPlayPause(_ sender: UIButton) {
+    sender.isSelected = !sender.isSelected
+    if sender.isSelected {
       resetCalculation()
-      updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self,
+      updateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self,
         selector: #selector(calculateNextNumber), userInfo: nil, repeats: true)
       registerBackgroundTask()
     } else {
@@ -50,13 +50,13 @@ class WhateverViewController: UIViewController {
   }
   
   func resetCalculation() {
-    previous = NSDecimalNumber.one()
-    current = NSDecimalNumber.one()
+    previous = NSDecimalNumber.one
+    current = NSDecimalNumber.one
     position = 1
   }
   
   func registerBackgroundTask() {
-    backgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler {
+    backgroundTask = UIApplication.shared.beginBackgroundTask {
       [unowned self] in
       self.endBackgroundTask()
     }
@@ -65,15 +65,15 @@ class WhateverViewController: UIViewController {
   
   func endBackgroundTask() {
     NSLog("Background task ended.")
-    UIApplication.sharedApplication().endBackgroundTask(backgroundTask)
+    UIApplication.shared.endBackgroundTask(backgroundTask)
     backgroundTask = UIBackgroundTaskInvalid
   }
   
   func calculateNextNumber() {
-    let result = current.decimalNumberByAdding(previous)
+    let result = current.adding(previous)
     
     let bigNumber = NSDecimalNumber(mantissa: 1, exponent: 40, isNegative: false)
-    if result.compare(bigNumber) == .OrderedAscending {
+    if result.compare(bigNumber) == .orderedAscending {
       previous = current
       current = result
       position += 1
@@ -85,13 +85,13 @@ class WhateverViewController: UIViewController {
     
     let resultsMessage = "Position \(position) = \(current)"
     
-    switch UIApplication.sharedApplication().applicationState {
-    case .Active:
+    switch UIApplication.shared.applicationState {
+    case .active:
       resultsLabel.text = resultsMessage
-    case .Background:
+    case .background:
       NSLog("App is backgrounded. Next number = %@", resultsMessage)
-      NSLog("Background time remaining = %.1f seconds", UIApplication.sharedApplication().backgroundTimeRemaining)
-    case .Inactive:
+      NSLog("Background time remaining = %.1f seconds", UIApplication.shared.backgroundTimeRemaining)
+    case .inactive:
       break
     }
   }

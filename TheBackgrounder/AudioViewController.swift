@@ -21,39 +21,41 @@ class AudioViewController: UIViewController {
     do {
       try AVAudioSession.sharedInstance().setCategory(
             AVAudioSessionCategoryPlayAndRecord,
-            withOptions: .DefaultToSpeaker)
+            with: .defaultToSpeaker)
     } catch {
       NSLog("Failed to set audio session category.  Error: \(error)")
     }
     
     let songNames = ["FeelinGood","IronBacon","WhatYouWant"]
-    let songs = songNames.map { AVPlayerItem(URL:
-      NSBundle.mainBundle().URLForResource($0, withExtension: "mp3")!) }
+    let songs = songNames.map { AVPlayerItem(url:
+      Bundle.main.url(forResource: $0, withExtension: "mp3")!) }
     
     player = AVQueuePlayer(items: songs)
-    player.actionAtItemEnd = .Advance
-    player.addObserver(self, forKeyPath: "currentItem", options: [.New, .Initial] , context: nil)
-    player.addPeriodicTimeObserverForInterval(CMTimeMake(1, 100), queue: dispatch_get_main_queue()) {
+    player.actionAtItemEnd = .advance
+    player.addObserver(self, forKeyPath: "currentItem", options: [.new, .initial] , context: nil)
+    player.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 100), queue: DispatchQueue.main) {
       [unowned self] time in
       let timeString = String(format: "%02.2f", CMTimeGetSeconds(time))
-      if UIApplication.sharedApplication().applicationState == .Active {
+      if UIApplication.shared.applicationState == .active {
         self.timeLabel.text = timeString
       } else {
         print("Background: \(timeString)")
       }
     }
   }
+
   
-  override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     if keyPath == "currentItem", let player = object as? AVPlayer,
-      currentItem = player.currentItem?.asset as? AVURLAsset {
-        songLabel.text = currentItem.URL.lastPathComponent ?? "Unknown"
+      let currentItem = player.currentItem?.asset as? AVURLAsset {
+      songLabel.text = currentItem.url.lastPathComponent
     }
   }
   
-  @IBAction func playPauseAction(sender: UIButton) {
-    sender.selected = !sender.selected
-    if sender.selected {
+  
+  @IBAction func playPauseAction(_ sender: UIButton) {
+    sender.isSelected = !sender.isSelected
+    if sender.isSelected {
       player.play()
     } else {
       player.pause()

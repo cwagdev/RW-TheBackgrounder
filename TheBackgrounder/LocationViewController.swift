@@ -19,19 +19,19 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     manager.delegate = self
     manager.requestAlwaysAuthorization()
     return manager
-    }()
+  }()
   
   @IBOutlet weak var mapView: MKMapView!
-    
-  @IBAction func enabledChanged(sender: UISwitch) {
-    if sender.on {
+  
+  @IBAction func enabledChanged(_ sender: UISwitch) {
+    if sender.isOn {
       locationManager.startUpdatingLocation()
     } else {
       locationManager.stopUpdatingLocation()
     }
   }
   
-  @IBAction func accuracyChanged(sender: UISegmentedControl) {
+  @IBAction func accuracyChanged(_ sender: UISegmentedControl) {
     let accuracyValues = [
       kCLLocationAccuracyBestForNavigation,
       kCLLocationAccuracyBest,
@@ -45,27 +45,31 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
   
   // MARK: - CLLocationManagerDelegate
   
-  func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    guard let mostRecentLocation = locations.last else {
+      return
+    }
+    
     // Add another annotation to the map.
     let annotation = MKPointAnnotation()
-    annotation.coordinate = newLocation.coordinate
+    annotation.coordinate = mostRecentLocation.coordinate
     
     // Also add to our map so we can remove old values later
-    locations.append(annotation)
+    self.locations.append(annotation)
     
     // Remove values if the array is too big
     while locations.count > 100 {
-      let annotationToRemove = locations.first!
-      locations.removeAtIndex(0)
+      let annotationToRemove = self.locations.first!
+      self.locations.remove(at: 0)
       
       // Also remove from the map
       mapView.removeAnnotation(annotationToRemove)
     }
     
-    if UIApplication.sharedApplication().applicationState == .Active {
-      mapView.showAnnotations(locations, animated: true)
+    if UIApplication.shared.applicationState == .active {
+      mapView.showAnnotations(self.locations, animated: true)
     } else {
-      NSLog("App is backgrounded. New location is %@", newLocation)
+      NSLog("App is backgrounded. New location is %@", mostRecentLocation)
     }
   }
 }
