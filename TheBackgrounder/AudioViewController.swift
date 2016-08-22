@@ -15,11 +15,13 @@ class AudioViewController: UIViewController {
   @IBOutlet weak var timeLabel: UILabel!
   lazy var player: AVQueuePlayer = self.makePlayer()
   
-  private let songNames = ["FeelinGood", "IronBacon", "WhatYouWant"]
-  private let songs = songNames.map {
-    let url = Bundle.main.url(forResource: $0, withExtension: "mp3")!
-    return AVPlayerItem(url: url)
-  }
+  private lazy var songs: [AVPlayerItem] = {
+    let songNames = ["FeelinGood", "IronBacon", "WhatYouWant"]
+    return songNames.map {
+      let url = Bundle.main.url(forResource: $0, withExtension: "mp3")!
+      return AVPlayerItem(url: url)
+    }
+  }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
