@@ -13,7 +13,13 @@ class AudioViewController: UIViewController {
   
   @IBOutlet weak var songLabel: UILabel!
   @IBOutlet weak var timeLabel: UILabel!
-  var player: AVQueuePlayer!
+  lazy var player: AVQueuePlayer = self.makePlayer()
+  
+  private let songNames = ["FeelinGood", "IronBacon", "WhatYouWant"]
+  private let songs = songNames.map {
+    let url = Bundle.main.url(forResource: $0, withExtension: "mp3")!
+    return AVPlayerItem(url: url)
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -23,27 +29,27 @@ class AudioViewController: UIViewController {
             AVAudioSessionCategoryPlayAndRecord,
             with: .defaultToSpeaker)
     } catch {
-      NSLog("Failed to set audio session category.  Error: \(error)")
+      print("Failed to set audio session category.  Error: \(error)")
     }
     
-    let songNames = ["FeelinGood","IronBacon","WhatYouWant"]
-    let songs = songNames.map { AVPlayerItem(url:
-      Bundle.main.url(forResource: $0, withExtension: "mp3")!) }
-    
-    player = AVQueuePlayer(items: songs)
-    player.actionAtItemEnd = .advance
-    player.addObserver(self, forKeyPath: "currentItem", options: [.new, .initial] , context: nil)
-    player.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 100), queue: DispatchQueue.main) {
-      [unowned self] time in
+    player.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 100), queue: DispatchQueue.main) { [weak self] time in
+      guard let strongSelf = self else { return }
       let timeString = String(format: "%02.2f", CMTimeGetSeconds(time))
+      
       if UIApplication.shared.applicationState == .active {
-        self.timeLabel.text = timeString
+        strongSelf.timeLabel.text = timeString
       } else {
         print("Background: \(timeString)")
       }
     }
   }
-
+  
+  private func makePlayer() -> AVQueuePlayer {
+    let player = AVQueuePlayer(items: songs)
+    player.actionAtItemEnd = .advance
+    player.addObserver(self, forKeyPath: "currentItem", options: [.new, .initial] , context: nil)
+    return player
+  }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     if keyPath == "currentItem", let player = object as? AVPlayer,
@@ -51,7 +57,6 @@ class AudioViewController: UIViewController {
       songLabel.text = currentItem.url.lastPathComponent
     }
   }
-  
   
   @IBAction func playPauseAction(_ sender: UIButton) {
     sender.isSelected = !sender.isSelected
