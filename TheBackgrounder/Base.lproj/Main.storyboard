@@ -50,7 +50,7 @@
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Audio" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Audio" image="music" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="songLabel" destination="KQZ-1w-vlD" id="x3R-nc-r0F"/>
                         <outlet property="timeLabel" destination="A5M-7J-77L" id="PyR-dd-jMo"/>
@@ -105,7 +105,7 @@
                             <constraint firstItem="xeS-pS-PMC" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="ypO-NO-gNi"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Location" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Location" image="map" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="mapView" destination="xeS-pS-PMC" id="X3E-j8-tlG"/>
                     </connections>
@@ -149,7 +149,7 @@
                             <constraint firstItem="sAh-bv-HJg" firstAttribute="centerX" secondItem="OS5-yT-llf" secondAttribute="centerX" id="vfR-px-WSM"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Whatever" image="first" id="yEg-vd-NYa"/>
+                    <tabBarItem key="tabBarItem" title="Whatever" image="fib" id="yEg-vd-NYa"/>
                     <connections>
                         <outlet property="resultsLabel" destination="OS5-yT-llf" id="6Uf-az-EBe"/>
                     </connections>
@@ -192,7 +192,7 @@
                             <constraint firstAttribute="centerX" secondItem="vOP-4v-iU7" secondAttribute="centerX" constant="-0.5" id="wWI-lK-Vo7"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Fetch" image="second" id="YQv-zT-9b7"/>
+                    <tabBarItem key="tabBarItem" title="Fetch" image="fetch" id="YQv-zT-9b7"/>
                     <connections>
                         <outlet property="updateLabel" destination="5Co-Ga-kx4" id="pUs-6O-7Ve"/>
                     </connections>
@@ -224,7 +224,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="fetch" width="24" height="24"/>
+        <image name="fib" width="24" height="24"/>
+        <image name="map" width="24" height="24"/>
+        <image name="music" width="24" height="24"/>
     </resources>
 </document>
