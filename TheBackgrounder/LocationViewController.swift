@@ -11,17 +11,17 @@ import CoreLocation
 import MapKit
 
 class LocationViewController: UIViewController, CLLocationManagerDelegate {
-  var locations = [MKPointAnnotation]()
+  @IBOutlet weak var mapView: MKMapView!
   
-  lazy var locationManager: CLLocationManager! = {
+  private var locations = [MKPointAnnotation]()
+  
+  private lazy var locationManager: CLLocationManager = {
     let manager = CLLocationManager()
     manager.desiredAccuracy = kCLLocationAccuracyBest
     manager.delegate = self
     manager.requestAlwaysAuthorization()
     return manager
   }()
-  
-  @IBOutlet weak var mapView: MKMapView!
   
   @IBAction func enabledChanged(_ sender: UISwitch) {
     if sender.isOn {
