@@ -10,7 +10,7 @@ import UIKit
 
 class WhateverViewController: UIViewController {
   
-  @IBOutlet weak var resultsLabel: UILabel!
+  @IBOutlet var resultsLabel: UILabel!
   
   var previous = NSDecimalNumber.one
   var current = NSDecimalNumber.one
@@ -56,15 +56,15 @@ class WhateverViewController: UIViewController {
   }
   
   func registerBackgroundTask() {
-    backgroundTask = UIApplication.shared.beginBackgroundTask {
-      [unowned self] in
-      self.endBackgroundTask()
+    backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+      guard let strongSelf = self else { return }
+      strongSelf.endBackgroundTask()
     }
     assert(backgroundTask != UIBackgroundTaskInvalid)
   }
   
   func endBackgroundTask() {
-    NSLog("Background task ended.")
+    print("Background task ended.")
     UIApplication.shared.endBackgroundTask(backgroundTask)
     backgroundTask = UIBackgroundTaskInvalid
   }
@@ -77,8 +77,7 @@ class WhateverViewController: UIViewController {
       previous = current
       current = result
       position += 1
-    }
-    else {
+    } else {
       // This is just too much.... Start over.
       resetCalculation()
     }
@@ -89,8 +88,8 @@ class WhateverViewController: UIViewController {
     case .active:
       resultsLabel.text = resultsMessage
     case .background:
-      NSLog("App is backgrounded. Next number = %@", resultsMessage)
-      NSLog("Background time remaining = %.1f seconds", UIApplication.shared.backgroundTimeRemaining)
+      print("App is backgrounded. Next number = \(resultsMessage)")
+      print("Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
     case .inactive:
       break
     }

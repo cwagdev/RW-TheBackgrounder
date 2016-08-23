@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 
 class LocationViewController: UIViewController, CLLocationManagerDelegate {
-  @IBOutlet weak var mapView: MKMapView!
+  @IBOutlet var mapView: MKMapView!
   
   private var locations = [MKPointAnnotation]()
   
@@ -69,7 +69,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     if UIApplication.shared.applicationState == .active {
       mapView.showAnnotations(self.locations, animated: true)
     } else {
-      NSLog("App is backgrounded. New location is %@", mostRecentLocation)
+      print("App is backgrounded. New location is %@", mostRecentLocation)
     }
   }
 }

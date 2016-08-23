@@ -10,8 +10,15 @@ import UIKit
 
 class FetchViewController: UIViewController {
   
-  @IBOutlet weak var updateLabel: UILabel?
-  var time: Date?
+  @IBOutlet var updateLabel: UILabel!
+  
+  private var time: Date?
+  private lazy var dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    formatter.timeStyle = .long
+    return formatter
+  }()
   
   func fetch(_ completion: () -> Void) {
     time = Date()
@@ -20,13 +27,9 @@ class FetchViewController: UIViewController {
   
   func updateUI() {
     if let time = time {
-      let formatter = DateFormatter()
-      formatter.dateStyle = .short
-      formatter.timeStyle = .long
-      updateLabel?.text = formatter.string(from: time)
-    }
-    else {
-      updateLabel?.text = "Not yet updated"
+      updateLabel.text = dateFormatter.string(from: time)
+    } else {
+      updateLabel.text = "Not yet updated"
     }
   }
   
@@ -36,6 +39,9 @@ class FetchViewController: UIViewController {
   }
   
   @IBAction func didTapUpdate(_ sender: UIButton) {
-    fetch { self.updateUI() }
+    fetch { [weak self] in
+      guard let strongSelf = self else { return }
+      strongSelf.updateUI()
+    }
   }
 }

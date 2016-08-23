@@ -11,8 +11,8 @@ import AVFoundation
 
 class AudioViewController: UIViewController {
   
-  @IBOutlet weak var songLabel: UILabel!
-  @IBOutlet weak var timeLabel: UILabel!
+  @IBOutlet var songLabel: UILabel!
+  @IBOutlet var timeLabel: UILabel!
   lazy var player: AVQueuePlayer = self.makePlayer()
   
   private lazy var songs: [AVPlayerItem] = {
