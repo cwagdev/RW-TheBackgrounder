@@ -10,10 +10,10 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class LocationViewController: UIViewController, CLLocationManagerDelegate {
+class LocationViewController: UIViewController {
   @IBOutlet var mapView: MKMapView!
   
-  private var locations = [MKPointAnnotation]()
+  fileprivate var locations = [MKPointAnnotation]()
   
   private lazy var locationManager: CLLocationManager = {
     let manager = CLLocationManager()
@@ -42,8 +42,10 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     
     locationManager.desiredAccuracy = accuracyValues[sender.selectedSegmentIndex];
   }
-  
-  // MARK: - CLLocationManagerDelegate
+}
+
+// MARK: - CLLocationManagerDelegate
+extension LocationViewController: CLLocationManagerDelegate {
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let mostRecentLocation = locations.last else {
@@ -72,5 +74,6 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
       print("App is backgrounded. New location is %@", mostRecentLocation)
     }
   }
+
 }
 
