@@ -24,9 +24,11 @@ class WhateverViewController: UIViewController {
       resetCalculation()
       updateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self,
                                          selector: #selector(calculateNextNumber), userInfo: nil, repeats: true)
+      // register background task
     } else {
       updateTimer?.invalidate()
       updateTimer = nil
+      // end background task
     }
   }
   
