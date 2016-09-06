@@ -30,14 +30,6 @@ class WhateverViewController: UIViewController {
     }
   }
   
-  func registerBackgroundTask() {
-    
-  }
-  
-  func endBackgroundTask() {
-    
-  }
-  
   func calculateNextNumber() {
     let result = current.adding(previous)
     
