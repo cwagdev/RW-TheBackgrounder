@@ -125,7 +125,6 @@
 				TargetAttributes = {
 					5DAC2CC71A3801D10081725C = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = X28LAA5D4H;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -297,7 +296,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = X28LAA5D4H;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TheBackgrounder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.tutorial.TheBackgrounder;
@@ -313,7 +312,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = X28LAA5D4H;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TheBackgrounder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.tutorial.TheBackgrounder;
