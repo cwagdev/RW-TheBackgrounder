@@ -57,12 +57,11 @@ class WhateverViewController: UIViewController {
   
   func registerBackgroundTask() {
     backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
-      guard let strongSelf = self else { return }
-      strongSelf.endBackgroundTask()
+      self?.endBackgroundTask()
     }
     assert(backgroundTask != UIBackgroundTaskInvalid)
   }
-  
+
   func endBackgroundTask() {
     print("Background task ended.")
     UIApplication.shared.endBackgroundTask(backgroundTask)

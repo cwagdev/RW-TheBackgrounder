@@ -14,7 +14,7 @@ class LocationViewController: UIViewController {
   @IBOutlet var mapView: MKMapView!
   
   fileprivate var locations = [MKPointAnnotation]()
-  
+
   private lazy var locationManager: CLLocationManager = {
     let manager = CLLocationManager()
     manager.desiredAccuracy = kCLLocationAccuracyBest

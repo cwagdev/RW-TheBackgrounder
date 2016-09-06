@@ -34,7 +34,8 @@ class AudioViewController: UIViewController {
       print("Failed to set audio session category.  Error: \(error)")
     }
     
-    player.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 100), queue: DispatchQueue.main) { [weak self] time in
+    player.addPeriodicTimeObserver(forInterval: CMTimeMake(1, 100), queue: DispatchQueue.main) {
+      [weak self] time in
       guard let strongSelf = self else { return }
       let timeString = String(format: "%02.2f", CMTimeGetSeconds(time))
       
